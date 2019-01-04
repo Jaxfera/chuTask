@@ -15,7 +15,11 @@ std::string Gedit::getInput() {
 }
 
 void Gedit::start() {
-  Command command;
-  const std::string input = getInput();
-  command.executeLine(input);
+  while(true) {
+    Command command = Command::parse(getInput());
+    if(command.getName() == 'X') {
+      return;
+    }
+    command.execute();
+  }
 }
