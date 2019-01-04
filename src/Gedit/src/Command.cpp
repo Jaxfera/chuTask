@@ -6,6 +6,14 @@
 #include "Screen.h"
 
 static Screen& screen = *(Screen::getScreen());
+#define MAXWIDTH Screen::getScreen()->getM()
+#define MAXHEIGHT Screen::getScreen()->getN()
+
+static int getIntegerInput(std::string input, const int upperBoundary) {
+  int retval = std::stoi(input);
+  retval--;
+  return std::clamp(retval, 0, upperBoundary);
+}
 
 Command Command::parse(const std::string& line) {
   Command command;
@@ -34,14 +42,37 @@ void Command::clearImage() {
 }
 
 void Command::colourPixel() {
-  const int x = std::stoi(args[0])-1;
-  const int y = std::stoi(args[1])-1;
+  const int x = getIntegerInput(args[0], MAXWIDTH);
+  const int y = getIntegerInput(args[1], MAXHEIGHT);
   const char c = args[2][0];
   screen.colourPixel(x, y, c);
 }
 
 void Command::print() {
   screen.print();
+}
+
+void Command::drawVertical() {
+  const int x = getIntegerInput(args[0], MAXWIDTH);
+  const int y1 = getIntegerInput(args[1], MAXHEIGHT);
+  const int y2 = getIntegerInput(args[2], MAXHEIGHT);
+  const char c = args[3][0];
+  screen.drawVertical(x, y1, y2, c);
+}
+
+void Command::drawHorizontal() {
+  const int x1 = getIntegerInput(args[0], MAXWIDTH);
+  const int x2 = getIntegerInput(args[1], MAXWIDTH);
+  const int y = getIntegerInput(args[2], MAXHEIGHT);
+  const char c = args[3][0];
+  screen.drawHorizontal(x1, x2, y, c);
+}
+
+void Command::fillRegion() {
+  const int x = getIntegerInput(args[0], MAXWIDTH);
+  const int y = getIntegerInput(args[1], MAXHEIGHT);
+  const char c = args[2][0];
+  screen.fillRegion(x, y, c);
 }
 
 void Command::execute() {
@@ -57,6 +88,15 @@ void Command::execute() {
       break;
     case 'S':
       print();
+      break;
+    case 'V':
+      drawVertical();
+      break;
+    case 'H':
+      drawHorizontal();
+      break;
+    case 'F':
+      fillRegion();
       break;
   }
 }

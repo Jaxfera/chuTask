@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 
-
 class Command {
 public:
   inline Command() : args() {}
@@ -18,6 +17,9 @@ private:
   void clearImage();
   void colourPixel();
   void print();
+  void drawVertical();
+  void drawHorizontal();
+  void fillRegion();
   char name;
   std::vector<std::string> args;
 };
