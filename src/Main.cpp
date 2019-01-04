@@ -1,7 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <string>
-
 /* Commands:
  * I M N - Creates a new M x N image with all pixels coloured white (O).
  * C - Clears the table, setting all pixels to white (O).
@@ -13,39 +9,7 @@
  * X - Terminate the session
  */
 
-using namespace std;
-
-class Command {
-public:
-  Command() = default;
-  virtual char getName();
-  virtual void setName(char name);
-protected:
-  char name;
-};
-
-char Command::getName() {
-  return name;
-}
-
-void Command::setName(char name) {
-  this->name = name;
-}
-
-class Gedit {
-public:
-  Gedit() = default;
-  void start();
-private:
-  void processLine();
-};
-
-void Gedit::start() {
-  // Print command prompt
-  cout << "> ";
-  string input;
-  cin >> input;
-}
+#include "Gedit.h"
 
 int main() {
   Gedit demo;
