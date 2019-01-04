@@ -35,5 +35,5 @@ void Screen::print() {
 }
 
 void Screen::colourPixel(const int x, const int y, const char c) {
-  
+  pixels[y*m+x] = c;
 }
