@@ -1,0 +1,1 @@
+add_subdirectory(Gedit ${CMAKE_BINARY_DIR}/Gedit)
