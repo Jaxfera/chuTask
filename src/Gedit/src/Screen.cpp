@@ -39,13 +39,13 @@ void Screen::colourPixel(const int x, const int y, const char c) {
 }
 
 void Screen::drawVertical(const int x, const int y1, const int y2, const char c) {
-  for(int y = y1; y < y2; y++) {
+  for(int y = y1; y <= y2; y++) {
     screen->colourPixel(x, y, c);
   }
 }
 
 void Screen::drawHorizontal(const int x1, const int x2, const int y, const char c) {
-  for(int x = x1; x < x2; x++) {
+  for(int x = x1; x <= x2; x++) {
     screen->colourPixel(x, y, c);
   }
 }
@@ -53,26 +53,16 @@ void Screen::drawHorizontal(const int x1, const int x2, const int y, const char 
 void Screen::fillRegion(const int x, const int y, const char c) {
   const char fillColour = getPixelColour(x, y);
   colourPixel(x, y, c);
+  auto fill = [&](const int nextX, const int nextY){
+    if(checkIfInBounds(nextX, nextY) && hasColour(nextX, nextY, fillColour)) {
+      fillRegion(nextX, nextY, c);
+    }
+  };
 
-  // Fill pixels above
-  if(checkIfInBounds(x, y-1) && hasColour(x, y-1, fillColour)) {
-    fillRegion(x, y-1, c);
-  }
-
-  // Fill pixels below
-  if(checkIfInBounds(x, y+1) && hasColour(x, y+1, fillColour)) {
-    fillRegion(x, y+1, c);
-  }
-
-  // Fill pixels to the left
-  if(checkIfInBounds(x-1, y) && hasColour(x-1, y, fillColour)) {
-    fillRegion(x-1, y, c);
-  }
-
-  // Fill pixels to the right
-  if(checkIfInBounds(x+1, y) && hasColour(x+1, y, fillColour)) {
-    fillRegion(x+1, y, c);
-  }
+  fill(x, y-1);
+  fill(x, y+1);
+  fill(x-1, y);
+  fill(x+1, y);
 }
 
 const bool Screen::hasColour(const int x1, const int y1, const char c) {

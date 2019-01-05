@@ -11,8 +11,7 @@ static Screen& screen = *(Screen::getScreen());
 
 static int getIntegerInput(std::string input, const int upperBoundary) {
   int retval = std::stoi(input);
-  retval--;
-  return std::clamp(retval, 0, upperBoundary);
+  return std::clamp(--retval, 0, upperBoundary-1);
 }
 
 Command Command::parse(const std::string& line) {
